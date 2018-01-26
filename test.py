@@ -8,17 +8,17 @@ import picamera.array
 
 print("initializing camera")
 # initialize camera
-camera = picamera.PiCamera()
-camera.resolution = (640, 480)
-rawCapture = picamera.array.PiRGBArray(camera)
-# let camera warm up
-time.sleep(0.5)
+#camera = picamera.PiCamera()
+#camera.resolution = (640, 480)
+#rawCapture = picamera.array.PiRGBArray(camera)
+
+#time.sleep(5)
 
 
-camera.capture("test.jpg")
-camera.close()
+#camera.capture("test.jpg")
 
-print("camera close")
+
+#print("camera close")
 
 # continuously capture photos
 if False:
@@ -57,24 +57,48 @@ if False:
 print("GPIO setting")
 gp.setwarnings(False)
 gp.setmode(gp.BOARD)
+gp.setup(3, gp.OUT, initial=gp.LOW)
+# gp.setup(9, gp.IN)
 
-gp.setup(3, gp.OUT)
-#gp.setup(9, gp.IN)
-
-#gp.output(3, True)
-#gp.output(9, True)
-
+# gp.output(3, True)
+# gp.output(9, True)
+# wait_for_edge()?
 # while i < 10:
-for i in range(0,3):
-    print("step %d" %i)
-    gp.output(3,gp.HIGH)
-    time.sleep(1)
-    gp.output(3,gp.LOW)
 
+with picamera.Picamera() as camera:
+    camera.resolution = (1280, 720)
+    camera.framerate = 30
+    camera.start_preview()
+    # let camera warm up
+    print("warming up")
+    time.sleep(5)
+    try:
+        for i, filename in enumerate(
+                camera.capture_continuous("img{counter:02d}.jpg", use_video_port=True)):
+            print(filename)
+            gp.output(3, gp.HIGH)
+            time.sleep(0.1)
+            gp.output(3, gp.LOW)
+            time.sleep(0.5)
+            if i == 5:
+                break
+    finally:
+        camera.stop_preview()
+
+
+
+for i in range(5):
+    print("step %d" %i)
+    camera.capture("image%s.jpg" % i)
+    gp.output(3, gp.HIGH)
+    time.sleep(0.1)
+    gp.output(3, gp.LOW)
+    time.sleep(0.5)
+
+camera.close()
+gp.cleanup()
 
 #def capture(cam):
 #    cmd = "raspistill -o capture_%d.jpg" % cam
 #    os.system(cmd)
 
-
-gp.cleanup()
