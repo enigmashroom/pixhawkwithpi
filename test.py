@@ -4,21 +4,22 @@ import os
 import time
 import picamera
 import picamera.array
-#import cv2
+
+# import cv2
 
 print("initializing camera")
 # initialize camera
-#camera = picamera.PiCamera()
-#camera.resolution = (640, 480)
-#rawCapture = picamera.array.PiRGBArray(camera)
+# camera = picamera.PiCamera()
+# camera.resolution = (640, 480)
+# rawCapture = picamera.array.PiRGBArray(camera)
 
-#time.sleep(5)
-
-
-#camera.capture("test.jpg")
+# time.sleep(5)
 
 
-#print("camera close")
+# camera.capture("test.jpg")
+
+
+# print("camera close")
 
 # continuously capture photos
 if False:
@@ -52,6 +53,8 @@ if False:
         camera.capture(rawCapture, format='bgr')
         img = rawCapture.array
         cv2.imshow()
+
+
     pass
 
 print("GPIO setting")
@@ -82,9 +85,8 @@ with picamera.PiCamera() as camera:
             time.sleep(1)
             if i == 5:
                 break
-    finally:
+    finally:138.38.173.11
         camera.stop_preview()
-
 
 """
 for i in range(5):
@@ -98,7 +100,6 @@ for i in range(5):
 camera.close()
 gp.cleanup()
 
-#def capture(cam):
+# def capture(cam):
 #    cmd = "raspistill -o capture_%d.jpg" % cam
 #    os.system(cmd)
-

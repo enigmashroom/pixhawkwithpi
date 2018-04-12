@@ -4,17 +4,18 @@ import os
 import time
 import picamera
 import picamera.array
-
+import sys
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
-GPIO.setup(3,GPIO.IN)
+GPIO.setup(3, GPIO.IN)
+photo_num = int(sys.argv[1])
 
-#Initialize camera
+# Initialize camera
 print "initializing camera"
 camera = picamera.PiCamera()
 camera.resolution = (320, 240)
 rawCapture = picamera.array.PiRGBArray(camera)
-#Let camera warm up
+# Let camera warm up
 print "warming up 2 secs"
 time.sleep(2)
 print "set camera"
@@ -63,16 +64,15 @@ while True:
         time.sleep(0.33)
     else:
         print "signal received"
-        camera.capture("/home/pi/img/img%02d.jpg" %i)
+        camera.capture("/home/pi/img/img%02d.jpg" % i)
         i += 1
 
-    if  i == 5:
-        print "five photos got"
+    if i == photo_num:
+        print(photo_num)
+        print "photos got"
         break
 
-
-
-#GPIO.add_event_detect(3)
+# GPIO.add_event_detect(3)
 
 """""
 def my_callback(channel):
