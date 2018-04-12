@@ -65,7 +65,7 @@ gp.setup(3, gp.OUT, initial=gp.LOW)
 # wait_for_edge()?
 # while i < 10:
 
-with picamera.Picamera() as camera:
+with picamera.PiCamera() as camera:
     camera.resolution = (1280, 720)
     camera.framerate = 30
     camera.start_preview()
@@ -74,27 +74,27 @@ with picamera.Picamera() as camera:
     time.sleep(5)
     try:
         for i, filename in enumerate(
-                camera.capture_continuous("img{counter:02d}.jpg", use_video_port=True)):
+                camera.capture_continuous("/home/pi/img/img{counter:02d}.jpg", use_video_port=True)):
             print(filename)
             gp.output(3, gp.HIGH)
-            time.sleep(0.1)
+            time.sleep(1)
             gp.output(3, gp.LOW)
-            time.sleep(0.5)
+            time.sleep(1)
             if i == 5:
                 break
     finally:
         camera.stop_preview()
 
 
-
+"""
 for i in range(5):
     print("step %d" %i)
-    camera.capture("image%s.jpg" % i)
+    camera.capture("/home/pi/img/image%s.jpg" % i)
     gp.output(3, gp.HIGH)
     time.sleep(0.1)
     gp.output(3, gp.LOW)
     time.sleep(0.5)
-
+"""
 camera.close()
 gp.cleanup()
 

@@ -9,11 +9,13 @@ from dronekit import connect, VehicleMode
 # Connect to the Vehicle.
 #print("Connecting to vehicle on: %s" % (connection_string,))
 #vehicle = connect(connection_string, wait_ready=True)
+
+print("connecting")
 vehicle = connect('/dev/ttyACM0',
-            wait_ready= True,
+
             vehicle_class=None,
             rate=4,
-            baud=57600,
+            baud=115200,
             heartbeat_timeout=5)
 # Get some vehicle attributes (state)
 while (1 > 0):

@@ -63,7 +63,7 @@ while True:
         time.sleep(0.33)
     else:
         print "signal received"
-        camera.capture("/home/pi/img/img%d.jpg" %i)
+        camera.capture("/home/pi/img/img%02d.jpg" %i)
         i += 1
 
     if  i == 5:
