@@ -38,8 +38,10 @@ def ssh2(ip, username, passwd, cmd):
 if __name__ == "__main__":
 
     print("Start.......")
-    cmd = ["echo hello", "python /home/pi/receive_data.py 10"]
-
+    cmd = ["echo hello", "python /home/pi/receive_data.py 2 640 480"]
+    #cmd = ["echo hello", "tar -zcvf /home/pi/imgs.tar.gz ./img"]
+    #cmd = ["echo hello", "scp /home/pi/imgs.tar.gz enigma@138.38.72.201:/home/enigma/data/"]
+    #cmd = ["echo hello", "scp" /home ]
     username = "pi"
 
     passwd = "raspberry"
