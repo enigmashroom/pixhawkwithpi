@@ -7,7 +7,7 @@ import picamera.array
 import sys
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
-GPIO.setup(3, GPIO.IN)
+GPIO.setup(7, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
 photo_num = int(sys.argv[1])
 
 # Initialize camera
@@ -52,7 +52,7 @@ i = 0
 
 """""
 while True:
-    if GPIO.input (3) == GPIO.LOW:
+    if GPIO.input(3) == GPIO.LOW:
         print "low voltage"
         time.sleep(0.33)
     else:
@@ -66,7 +66,7 @@ for i in range(5):
 
 """
 while True:
-    channel = GPIO.wait_for_edge(3, GPIO.BOTH)
+    channel = GPIO.wait_for_edge(7, GPIO.RISING)
     if channel is None:
         print "low voltage nothing happened"
         time.sleep(0.33)
