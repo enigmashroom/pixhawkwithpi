@@ -7,6 +7,9 @@ import picamera.array
 import sys
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
+
+# IR and UV GPIO IN RGB OUT
+#GPIO.setup(7,GPIO.OUT)
 GPIO.setup(7, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
 photo_num = int(sys.argv[1])
 
@@ -19,6 +22,7 @@ rawCapture = picamera.array.PiRGBArray(camera)
 print "warming up 2 secs"
 time.sleep(2)
 print "set camera"
+"""
 camera.sharpness = 0
 camera.contrast = 0
 camera.brightness = 50
@@ -41,47 +45,33 @@ camera.exposure_mode = 'off'
 g = camera.awb_gains
 camera.awb_mode = 'off'
 camera.awb_gains = g
+"""
+print "stabilization 5 secs"
+time.sleep(5)
 
-print "stabilization 10 secs"
-time.sleep(10)
-
-camera.start_preview()
+camera.start_preview(fullscreen=False,window=(200,20,640,480))
 path = "/home/pi/img/" + str(time.time())
 os.makedirs(path)
 i = 0
 
-"""""
-while True:
-    if GPIO.input(3) == GPIO.LOW:
-        print "low voltage"
-        time.sleep(0.33)
-    else:
-        print "high voltage"
-"""""
-"""
-for i in range(5):
-    print "photo"
-    img_path = path + "/img%02d.jpg" %i
-    camera.capture(img_path)
-
-"""
 while True:
     channel = GPIO.wait_for_edge(7, GPIO.RISING)
     if channel is None:
         print "low voltage nothing happened"
         time.sleep(0.33)
     else:
-        print "signal received"
-        img_path = path + "/img%02d.jpg" %i
-        camera.capture(img_path)
-        i += 1
+    	print "signal received"
+    	img_path = path + "/img%02d.png" %i
+    	print i
+    	camera.capture(img_path)
+    	time.sleep(2)
+    	i += 1
 
     if i == photo_num:
         print(photo_num)
         print "photos got"
         break
 
-# GPIO.add_event_detect(3)
 
 """""
 def my_callback(channel):
