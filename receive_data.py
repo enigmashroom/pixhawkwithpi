@@ -5,23 +5,8 @@ import time
 import picamera
 import picamera.array
 import sys
-GPIO.setmode(GPIO.BOARD)
-GPIO.setwarnings(False)
 
-# IR and UV GPIO IN RGB OUT
-#GPIO.setup(7,GPIO.OUT)
-GPIO.setup(7, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
-photo_num = int(sys.argv[1])
 
-# Initialize camera
-print "initializing camera"
-camera = picamera.PiCamera()
-camera.resolution = (int(sys.argv[2]), int(sys.argv[3]))
-rawCapture = picamera.array.PiRGBArray(camera)
-# Let camera warm up
-print "warming up 2 secs"
-time.sleep(2)
-print "set camera"
 """
 camera.sharpness = 0
 camera.contrast = 0
@@ -83,6 +68,32 @@ GPIO.add_event_detect(channel, GPIO.RISING, callback=my_callback)
 """""
 camera.stop_preview()
 
+
+def camera_warmup():
+    # Initialize camera
+    print "initializing camera"
+    camera = picamera.PiCamera()
+    camera.resolution = (int(sys.argv[2]), int(sys.argv[3]))
+    rawCapture = picamera.array.PiRGBArray(camera)
+    # Let camera warm up
+    print "warming up 2 secs"
+    time.sleep(2)
+    print "set camera"
+
+
+def camera_capture():
+    pass
+
 camera.close()
 
 GPIO.cleanup()
+
+
+if __name__ == '__main__':
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setwarnings(False)
+
+    GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    photo_num = int(sys.argv[1])
+
+    while
